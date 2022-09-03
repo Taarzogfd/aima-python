@@ -1,4 +1,4 @@
-# link:
+# link: https://github.com/Taarzogfd/aima-python/blob/master/mycode_2-8.py
 
 from agents import *
 
