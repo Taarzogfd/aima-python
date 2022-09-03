@@ -32,8 +32,8 @@ class myVacEnv(XYEnvironment):
                     returnVal.append([(j, i), self.cleanness[i][j]])
         return returnVal
 
-    def percept(self, agent):
-        return self.things_near(agent.location)
+    def percept(self, location):
+        return self.things_near(location)
 
     def agentSucks(self):
         x, y=self.agentLocation
@@ -92,4 +92,5 @@ class myVacEnv(XYEnvironment):
         if agent==None:
             print('** WARNING: AGENT NOT DEFINED **')
 
-        self.agentMoves(agent.decide(self.agentLocation))
+        self.agentMoves(agent.decide(self.agentLocation),
+                        self.percept(self.agentLocation))
