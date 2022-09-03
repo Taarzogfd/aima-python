@@ -105,6 +105,6 @@ if __name__=='__main__':
             print('\n\n\nFINAL SCORE: '+str(inst_Env.score))
             print('------------- TEST ROUND ENDS ------------\n\n')
 
-print('++++++++ ALL TEST ROUNDS FINISHED SUCCESSFULLY ++++++++')
-print('Width: %d, Height: %d, Steps: %d' % (widthMain,heightMain,steps_taken))
-print('Total test rounds: %d' % (totalTests))
+    print('++++++++ ALL TEST ROUNDS FINISHED SUCCESSFULLY ++++++++')
+    print('Width: %d, Height: %d, Steps: %d' % (widthMain,heightMain,steps_taken))
+    print('Total test rounds: %d' % (totalTests))
