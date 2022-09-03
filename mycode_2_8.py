@@ -3,15 +3,15 @@
 from agents import *
 
 
-## The environment has one agent in it.
-## The agent's decision process is triggered by function decide(),
-## and the agent returns its result in:
-## 'Suck', 'Up', 'Down', 'Left', 'Right'.
+# The environment has one agent in it.
+# The agent's decision process is triggered by function decide(),
+# and the agent returns its result in:
+# 'Suck', 'Up', 'Down', 'Left', 'Right'.
 
 class myVacEnv(XYEnvironment):
     def __init__(self, width=2, height=1, agentInitialLocation=(0, 0)):
         super().__init__(width, height)
-        self.cleanness=[] # Dirty places need to be initialized manually
+        self.cleanness=[]  # Dirty places need to be initialized manually
         self.score=1000  # Default: 1000
         self.agentLocation=agentInitialLocation  # Location: (x,y) width is x, and height is y
         self.agent=None  # must be initialized
@@ -37,13 +37,16 @@ class myVacEnv(XYEnvironment):
 
     def agentSucks(self):
         x, y=self.agentLocation
-        if self.cleanness[y][x]!='Clean':
+        if self.cleanness[y][x]=='Dirty':
             print('The agent has cleaned a dirty place:'+x+","+y)
             self.cleanness[y][x]='Clean'
             self.score+=100
-        else:
+        elif self.cleanness[y][x]=='Clean':
             print('This place is already clean:'+x+","+y)
             self.score-=100
+        else:
+            print('** WARNING: cleaness invalid at '+self.agentLocation+' **')
+            raise RuntimeError('See Console for details')
 
     def agentMoves(self, action):
         if action=="Suck":
@@ -51,7 +54,7 @@ class myVacEnv(XYEnvironment):
             self.agentSucks()
             return
 
-        # self.score-=5 #reserved for penalty on move 
+        # self.score-=5 #reserved for penalty on move
 
         if action=='Left':
             if self.agentLocation[0]==0:
@@ -87,10 +90,12 @@ class myVacEnv(XYEnvironment):
 
         # default
         print("** WARNING: The agent returned an incorrect message ** "+self.agentLocation)
+        raise RuntimeError('See Console for details')
 
     def execute_action(self, agent):
         if agent==None:
             print('** WARNING: AGENT NOT DEFINED **')
+            raise RuntimeError('See Console for details')
 
         self.agentMoves(agent.decide(self.agentLocation),
                         self.percept(self.agentLocation))
