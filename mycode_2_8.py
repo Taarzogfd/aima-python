@@ -9,11 +9,11 @@ from agents import *
 # 'Suck', 'Up', 'Down', 'Left', 'Right'.
 
 class myVacEnv(XYEnvironment):
-    def __init__(self, width=2, height=1, agentInitialLocation=(0, 0)):
+    def __init__(self, width=2, height=1, agentInitialLocation=[0, 0]):
         super().__init__(width, height)
         self.cleanness=[]  # Dirty places need to be initialized manually
         self.score=1000  # Default: 1000
-        self.agentLocation=agentInitialLocation  # Location: (x,y) width is x, and height is y
+        self.agentLocation=agentInitialLocation  # Location: [x,y] width is x, and height is y
         self.agent=None  # must be initialized
 
         # Initialize: every place is clean
@@ -29,7 +29,7 @@ class myVacEnv(XYEnvironment):
         for i in range(self.height):
             for j in range(self.width):
                 if distance_squared(location, (j, i))<=radiusSq:
-                    returnVal.append([(j, i), self.cleanness[i][j]])
+                    returnVal.append([[j, i], self.cleanness[i][j]])
         return returnVal
 
     def percept(self, location):
@@ -38,14 +38,14 @@ class myVacEnv(XYEnvironment):
     def agentSucks(self):
         x, y=self.agentLocation
         if self.cleanness[y][x]=='Dirty':
-            print('The agent has cleaned a dirty place:'+x+","+y)
+            print('The agent has cleaned a dirty place:'+str(x)+","+str(y))
             self.cleanness[y][x]='Clean'
             self.score+=100
         elif self.cleanness[y][x]=='Clean':
-            print('This place is already clean:'+x+","+y)
+            print('This place is already clean:'+str(x)+","+str(y))
             self.score-=100
         else:
-            print('** WARNING: cleaness invalid at '+self.agentLocation+' **')
+            print('** WARNING: cleaness invalid at '+str(self.agentLocation)+' **')
             raise RuntimeError('See Console for details')
 
     def agentMoves(self, action):
@@ -61,7 +61,7 @@ class myVacEnv(XYEnvironment):
                 print("The agent is at leftmost.")
             else:
                 self.agentLocation[0]-=1
-                print("The agent moved one step leftward. "+self.agentLocation)
+                print("The agent moved one step leftward. "+str(self.agentLocation))
             return
 
         if action=='Right':
@@ -69,7 +69,7 @@ class myVacEnv(XYEnvironment):
                 print("The agent is at rightmost.")
             else:
                 self.agentLocation[0]+=1
-                print("The agent moved one step rightward. "+self.agentLocation)
+                print("The agent moved one step rightward. "+str(self.agentLocation))
             return
 
         if action=='Up':
@@ -77,7 +77,7 @@ class myVacEnv(XYEnvironment):
                 print("The agent is at uppermost.")
             else:
                 self.agentLocation[1]+=1
-                print("The agent moved one step upward. "+self.agentLocation)
+                print("The agent moved one step upward. "+str(self.agentLocation))
             return
 
         if action=='Down':
@@ -85,11 +85,11 @@ class myVacEnv(XYEnvironment):
                 print("The agent is at bottom.")
             else:
                 self.agentLocation[1]-=1
-                print("The agent moved one step downward. "+self.agentLocation)
+                print("The agent moved one step downward. "+str(self.agentLocation))
             return
 
         # default
-        print("** WARNING: The agent returned an incorrect message ** "+self.agentLocation)
+        print("** WARNING: The agent returned an incorrect message ** "+str(self.agentLocation))
         raise RuntimeError('See Console for details')
 
     def execute_action(self, agent):
@@ -97,5 +97,6 @@ class myVacEnv(XYEnvironment):
             print('** WARNING: AGENT NOT DEFINED **')
             raise RuntimeError('See Console for details')
 
-        self.agentMoves(agent.decide(self.agentLocation),
-                        self.percept(self.agentLocation))
+        agentPerception=self.percept(self.agentLocation)
+        agentDecision=agent.decide(self.agentLocation,agentPerception)
+        self.agentMoves(agentDecision)
