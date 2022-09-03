@@ -11,7 +11,7 @@ from agents import *
 class myVacEnv(XYEnvironment):
     def __init__(self, width=2, height=1, agentInitialLocation=(0, 0)):
         super().__init__(width, height)
-        self.cleanness=[]
+        self.cleanness=[] # Dirty places need to be initialized manually
         self.score=1000  # Default: 1000
         self.agentLocation=agentInitialLocation  # Location: (x,y)
         self.agent=None  # must be initialized
