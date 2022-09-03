@@ -51,6 +51,8 @@ class myVacEnv(XYEnvironment):
             self.agentSucks()
             return
 
+        # self.score-=5 #reserved for penalty on move 
+
         if action=='Left':
             if self.agentLocation[0]==0:
                 print("The agent is at leftmost.")
