@@ -13,7 +13,7 @@ class myVacEnv(XYEnvironment):
         super().__init__(width, height)
         self.cleanness=[] # Dirty places need to be initialized manually
         self.score=1000  # Default: 1000
-        self.agentLocation=agentInitialLocation  # Location: (x,y)
+        self.agentLocation=agentInitialLocation  # Location: (x,y) width is x, and height is y
         self.agent=None  # must be initialized
 
         # Initialize: every place is clean
